@@ -1,0 +1,134 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+#board {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+    background-color: #dedede;
+}
+
+#board .square {
+    min-width: 150px;
+    min-height: 150px;
+    display: flex;
+    background-color: #222;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#board .square .shape {
+    font-size: 56px;
+    z-index: 1;
+}
+
+#reset {
+    position: absolute;
+    bottom: -75px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100px;
+    border: 1px solid #cecece;
+    background-color: transparent;
+    color: #dedede;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+#reset:hover {
+    background-color: #cecece;
+    color: #222;
+}
+
+.notification-backdrop {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification {
+    position: relative;
+    width: 50vw;
+    height: 50vh;
+    border: 1px solid #222;
+    background-color: #444;
+    color: #dedede;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    transition: .3s;
+    border-radius: 8px;
+    z-index: 20;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, .5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.notification.alert {
+    box-shadow: 0 0 2px rgba(255, 255, 0, .5);
+}
+
+.notification.success {
+    box-shadow: 0 0 2px rgba(0, 255, 0, .5);
+}
+
+.notification.error {
+    box-shadow: 0 0 2px rgba(255, 0, 0, .5);
+}
+
+.notification .notification-title {
+    height: 20%;
+}
+
+.notification .notification-message {
+    font-size: 18px;
+}
+
+.notification .notification-close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.line {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    z-index: 2;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "tik-tak-toe",
+  "version": "1.0.0",
+  "description": "JS Tik Tak Toe Game",
+  "main": "public/src/main.js",
+  "scripts": {},
+  "author": "David Cromianski",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
