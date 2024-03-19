@@ -19,6 +19,19 @@ body {
 }
 
 #board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#board #board-title {
+    font-size: 24px;
+    color: #dedede;
+}
+
+#board #squares-container {
     display: grid;
     position: relative;
     grid-template-columns: repeat(3, 1fr);
@@ -27,7 +40,7 @@ body {
     background-color: #dedede;
 }
 
-#board .square {
+#board #squares-container .square {
     min-width: 150px;
     min-height: 150px;
     display: flex;
@@ -37,16 +50,19 @@ body {
     cursor: pointer;
 }
 
-#board .square .shape {
+#board #squares-container .square .shape {
     font-size: 56px;
     z-index: 1;
 }
 
-#reset {
+#board #squares-container .line {
     position: absolute;
-    bottom: -75px;
-    left: 0;
-    right: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 2;
+}
+
+#board #reset {
     margin: 0 auto;
     width: 100px;
     border: 1px solid #cecece;
@@ -59,7 +75,7 @@ body {
     transition: .3s;
 }
 
-#reset:hover {
+#board #reset:hover {
     background-color: #cecece;
     color: #222;
 }
@@ -124,11 +140,4 @@ body {
     right: 6px;
     font-size: 16px;
     cursor: pointer;
-}
-
-.line {
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    z-index: 2;
 }

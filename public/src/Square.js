@@ -3,7 +3,7 @@ class Square {
     #value;
     #isOccupied;
     #occupant = null;
-    #domSquare = null;
+    #element = null;
     #players = [];
     #color;
 
@@ -18,31 +18,30 @@ class Square {
     }
 
     build() {
-        this.buildDOMSquare();
-    }
-
-    buildDOMSquare() {
-        this.#domSquare = document.createElement('div');
-        this.#domSquare.classList.add('square');
-        this.#domSquare.id = `square-${this.name}`;
-        this.#domSquare.value = this.value;
-        this.#domSquare.addEventListener('click', () =>  this.place());
+        this.#element = document.createElement('div');
+        this.#element.classList.add('square');
+        this.#element.id = `square-${this.name}`;
+        this.#element.value = this.value;
+        this.#element.addEventListener('click', () =>  this.place());
     }
 
     place() {
         if (this.isOccupied) return;
-        this.isOccupied = !this.isOccupied;
+        /**
+         * @var {Player} currentPlayer
+         */
         const currentPlayer = this.players.find(player => player.playerTurn);
-        this.domSquare.appendChild(currentPlayer.buildDOMShape());
-        this.occupant = (this.isOccupied) ? currentPlayer : null;
-        currentPlayer.score += (this.isOccupied) ? this.value : -this.value;
+        this.isOccupied = true;
+        this.occupant = currentPlayer;
+        this.element.appendChild(currentPlayer.buildDOMShape());
+        currentPlayer.squares = this;
         this.players.forEach(player => player.playerTurn = !player.playerTurn);
     }
 
     reset() {
         this.isOccupied = false;
         this.occupant = null;
-        this.domSquare.innerHTML = '';
+        this.element.innerHTML = '';
     }
 
     get value() {
@@ -85,8 +84,8 @@ class Square {
         this.#occupant = occupant;
     }
 
-    get domSquare() {
-        return this.#domSquare;
+    get element() {
+        return this.#element;
     }
 
     set color(color) {

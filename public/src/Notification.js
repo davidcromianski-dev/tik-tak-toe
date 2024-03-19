@@ -1,4 +1,11 @@
 class Notification {
+
+    /**
+     * @param title
+     * @param message
+     * @param type
+     * @returns {HTMLDivElement}
+     */
     constructor( { title, message, type } ) {
         const notification = document.createElement('div');
         notification.classList.add('notification', type);

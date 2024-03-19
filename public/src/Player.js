@@ -2,20 +2,24 @@ class Player {
     #name;
     #shape;
     #color;
-    #score;
+    #score = {};
     #playerTurn;
-    #winCondition = [7, 56, 448, 73, 146, 292, 273, 84];
+    #squares = [];
+    #winningCombinations = [7, 56, 448, 73, 146, 292, 273, 84];
+    isRobot = false;
 
-    constructor( { name, shape, score = 0, playerTurn = false, color = '#dedede'}) {
+    constructor(
+        { name, shape, playerTurn = false, color = '#dedede' }
+    ) {
         this.name = name;
         this.shape = shape;
-        this.score = score;
         this.playerTurn = playerTurn;
         this.color = color ?? this.color;
     }
 
     reset() {
-        this.score = 0;
+        this.score = {};
+        this.#squares = [];
         this.playerTurn = false;
     }
 
@@ -49,6 +53,10 @@ class Player {
         this.#shape = shape;
     }
 
+    get winningCombinations() {
+        return this.#winningCombinations;
+    }
+
     get score() {
         return this.#score;
     }
@@ -73,8 +81,57 @@ class Player {
         this.#color = color;
     }
 
-    checkWin() {
-        return this.#winCondition.some((win) => (win & this.score) === win);
+    get squares() {
+        return this.#squares;
+    }
+
+    /**
+     * @param { Square } square
+     */
+    set squares(square) {
+        this.#squares.push(square);
+        if (this.squares.length === 3) {
+            const values = this.squares.map(square => square.value);
+            const sum = values.reduce((acc, value) => acc + value, 0);
+            this.#score[sum] = values;
+        } else if (this.squares.length > 3) {
+            const newMatrix = this.calculateMatrixByValue(square.value);
+            this.score = this.combineMatrix(newMatrix);
+            this.checkWin();
+        }
+
+    }
+
+    combineMatrix(matrix) {
+        const combinedMatrix = {};
+        matrix.forEach(combination => {
+            const sum = combination.reduce((acc, value) => acc + value, 0);
+            combinedMatrix[sum] = combination;
+        });
+        return combinedMatrix;
+    }
+
+    calculateMatrixByValue(value) {
+        const newMatrix = [];
+        Object.values(this.score).forEach(combination => {
+            newMatrix.push(combination);
+            combination.forEach((val, index) => {
+                const newCombination = [...combination];
+                newCombination[index] = value;
+                newMatrix.push(newCombination);
+            });
+        });
+        return newMatrix;
+    }
+
+    checkWin(score = null) {
+        return Object.keys(score ?? this.score).some(sum => {
+            const win = this.winningCombinations.includes(Number(sum));
+            if (win) {
+                this.playerTurn = false;
+            }
+            return win;
+        });
     }
 }
 
