@@ -161,6 +161,9 @@ class Board {
         return this.#winner;
     }
 
+    /**
+     * @returns {Square[]}
+     */
     getEmptySquares() {
         return this.#squares.filter(square => !square.isOccupied);
     }

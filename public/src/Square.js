@@ -3,6 +3,9 @@ class Square {
     #value;
     #isOccupied;
     #occupant = null;
+    /**
+     * @type {HTMLDivElement}
+     */
     #element = null;
     #players = [];
     #color;

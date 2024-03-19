@@ -99,7 +99,6 @@ class Player {
             this.score = this.combineMatrix(newMatrix);
             this.checkWin();
         }
-
     }
 
     combineMatrix(matrix) {
@@ -112,26 +111,26 @@ class Player {
     }
 
     calculateMatrixByValue(value) {
-        const newMatrix = [];
-        Object.values(this.score).forEach(combination => {
-            newMatrix.push(combination);
-            combination.forEach((val, index) => {
-                const newCombination = [...combination];
-                newCombination[index] = value;
-                newMatrix.push(newCombination);
+        if (this.score.length > 0) {
+            const newMatrix = [];
+            Object.values(this.score).forEach(combination => {
+                newMatrix.push(combination);
+                combination.forEach((val, index) => {
+                    const newCombination = [...combination];
+                    newCombination[index] = value;
+                    newMatrix.push(newCombination);
+                });
             });
-        });
-        return newMatrix;
+            return newMatrix;
+        } else {
+            const newCombination = this.squares.map(square => square.value);
+            newCombination.push(value);
+            return this.combineMatrix([newCombination]);
+        }
     }
 
     checkWin(score = null) {
-        return Object.keys(score ?? this.score).some(sum => {
-            const win = this.winningCombinations.includes(Number(sum));
-            if (win) {
-                this.playerTurn = false;
-            }
-            return win;
-        });
+        return Object.keys(score ?? this.score).some(sum => this.winningCombinations.includes(Number(sum)));
     }
 }
 

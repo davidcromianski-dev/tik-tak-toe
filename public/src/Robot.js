@@ -45,11 +45,38 @@ class Robot extends Player {
             opponentWinsCell.dispatchEvent(new Event('click'));
             console.log("Prevented that")
         } else {
-            console.log("No one is going to win")
-            let closestToWin;
-            this.emptySquares.forEach(square => {
+            console.log("Opponent is not gong to win.")
+            const winningSquares = this.emptySquares.filter(square => {
                 const matrix = this.calculateMatrixByValue(square.value);
-            })
+                return this.checkWin(matrix);
+            });
+            if (winningSquares.length > 0) {
+                console.log('I\'m going to win');
+                const square = winningSquares[0].element;
+                square.dispatchEvent(new Event('click'));
+            } else {
+                console.log('I\'m not going to win now');
+                const possiblePlays = {};
+                this.squares.forEach(square => {
+                    this.emptySquares.forEach(emptySquare => {
+                        const sum = square.value + emptySquare.value;
+                        // const closestSum = this.checkClosestSumToWin(sum);
+                        console.log(`${square.value} + ${emptySquare.value} = ${sum}`)
+                        console.log(this.winningCombinations);return;
+                        if (this.winningCombinations.includes(closestSum)) {
+                            possiblePlays[closestSum] = emptySquare;
+                        }
+                    });
+                });
+                console.log(possiblePlays)
+                const plays = Object.keys(possiblePlays).filter(sum => this.winningCombinations.includes(sum));
+                console.log('Possible plays', plays);
+                if (plays.length > 0) {
+                    console.log('I\'m going to play to win');
+                    const square = possiblePlays[plays[0]].element;
+                    square.dispatchEvent(new Event('click'));
+                }
+            }
         }
     }
 
@@ -75,9 +102,9 @@ class Robot extends Player {
         }
         return false;
     }
-    
-    checkWithMatrix() {
-        
+
+    checkClosestSumToWin(value) {
+
     }
 }
 
