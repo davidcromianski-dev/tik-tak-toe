@@ -5,8 +5,12 @@ class Player {
     #score = {};
     #playerTurn;
     #squares = [];
-    #winningCombinations = [7, 56, 448, 73, 146, 292, 273, 84];
+    #combinations = [];
     isRobot = false;
+    /**
+     * @type { Board }
+     */
+    #board;
 
     constructor(
         { name, shape, playerTurn = false, color = '#dedede' }
@@ -53,8 +57,12 @@ class Player {
         this.#shape = shape;
     }
 
-    get winningCombinations() {
-        return this.#winningCombinations;
+    get combinations() {
+        return this.#combinations;
+    }
+
+    set combinations(combination) {
+        this.#combinations.push(combination);
     }
 
     get score() {
@@ -101,9 +109,17 @@ class Player {
         }
     }
 
+    get board() {
+        return this.#board;
+    }
+
+    set board(board) {
+        this.#board = board;
+    }
+
     combineMatrix(matrix) {
         const combinedMatrix = {};
-        matrix.forEach(combination => {
+        Object.values(matrix).forEach(combination => {
             const sum = combination.reduce((acc, value) => acc + value, 0);
             combinedMatrix[sum] = combination;
         });
@@ -111,9 +127,10 @@ class Player {
     }
 
     calculateMatrixByValue(value) {
-        if (this.score.length > 0) {
+        const scoreValues = Object.values(this.score);
+        if (scoreValues.length > 0) {
             const newMatrix = [];
-            Object.values(this.score).forEach(combination => {
+            scoreValues.forEach(combination => {
                 newMatrix.push(combination);
                 combination.forEach((val, index) => {
                     const newCombination = [...combination];
@@ -130,7 +147,7 @@ class Player {
     }
 
     checkWin(score = null) {
-        return Object.keys(score ?? this.score).some(sum => this.winningCombinations.includes(Number(sum)));
+        return Object.keys(score ?? this.score).some(sum => this.board.winningCombinations.includes(Number(sum)));
     }
 }
 

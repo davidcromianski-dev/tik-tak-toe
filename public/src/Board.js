@@ -8,8 +8,10 @@ class Board {
     #element;
     #title;
     #winner;
+    #winningCombinations = [7, 56, 448, 73, 146, 292, 273, 84];
 
     constructor({ players }) {
+        players.forEach(player => player.board = this);
         this.players = players;
         this.build();
     }
@@ -159,6 +161,10 @@ class Board {
 
     get winner() {
         return this.#winner;
+    }
+
+    get winningCombinations() {
+        return this.#winningCombinations;
     }
 
     /**
